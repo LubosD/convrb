@@ -1,12 +1,9 @@
-#include <iostream>
 #include <ctime>
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
 #include "convrb.h"
 #include "util.h"
-
-using namespace std;
 
 HeaderState g_headerState;
 OverViewState g_overviewState;
@@ -21,11 +18,9 @@ int main()
 	memset(&g_overviewState, 0, sizeof g_overviewState);
 	memset(&g_itemState, 0, sizeof g_itemState);
 
-	while (true)
+	while (fgets(buf, sizeof buf, stdin))
 	{
-		cin.getline(buf, sizeof buf);
-		if (cin.eof() || cin.bad())
-			break;
+		rmeol(buf);
 		
 		//fprintf(stderr, "State: %d, processing: %s\n", state, buf);
 		switch (state)
@@ -58,7 +53,7 @@ State handleHeaderState(const char* line)
 					&g_headerState.tmStart.tm_mday, &g_headerState.tmStart.tm_mon, &g_headerState.tmStart.tm_year,
 					&g_headerState.tmEnd.tm_mday, &g_headerState.tmEnd.tm_mon, &g_headerState.tmEnd.tm_year) != 6)
 		{
-			cerr << "Cannot parse date range!\n";
+			fprintf(stderr, "Cannot parse date range: %s\n", line+10);
 			exit(1);
 		}
 

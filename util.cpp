@@ -37,20 +37,28 @@ int parseInt(const char* str)
 	return atoi(str);
 }
 
-void trim(char* src)
+template<typename Func> void trimAny(char* src, Func toTrim)
 {
 	int pos = strlen(src) - 1;
-	//printf("Len: %d\n", pos+1);
 	while (pos >= 0)
 	{
-		if (!isspace(src[pos]))
-		{
-			//printf("'%c' is not space\n", src[pos]);
+		if (!toTrim(src[pos]))
 			break;
-		}
 		pos--;
 	}
 	src[pos+1] = 0;
+}
+
+char* trim(char* str)
+{
+	trimAny(str, [](char c) { return isspace(c); });
+	return str;
+}
+
+char* rmeol(char* str)
+{
+	trimAny(str, [](char c) { return c == '\r' || c == '\n'; });
+	return str;
 }
 
 char* padleft(char* str, size_t len, char c)
