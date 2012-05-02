@@ -40,7 +40,7 @@ struct ItemState
 	char accNum[30];
 	char bankNum[5];
 	char varSym[11], specSym[11], constSym[11];
-	char description[100], operation[50];
+	char description[300], operation[50];
 	int line;
 };
 
